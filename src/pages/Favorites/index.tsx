@@ -1,26 +1,17 @@
 import React from 'react';
-import { Text, View, ImageBackground } from 'react-native';
+import { View } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-import { RectButton } from 'react-native-gesture-handler';
+import PageHeader from '../../components/PageHeader';
 
-import giveClaassesBgImage from '../../assets/images/give-classes-background.png';
 import styles from './styles';
 
 function Favorites() {
 
-  const {goBack} = useNavigation();
-    
-  function handleNavigateBack(){
-    goBack();
-  }
 
     return (
       <View style={styles.container}>
         
-        
-
-
+        <PageHeader title="Meus Proffys favoritos" />    
       </View>
     );
   }
