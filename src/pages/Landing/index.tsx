@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+
+import {useFocusEffect} from '@react-navigation/native';
 
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+
+import api from '../../services/api';
 
 import landingImg from '../../assets/images/landing.png';
 import studyIcon from '../../assets/images/icons/study.png';
@@ -11,16 +15,27 @@ import heartIcon from '../../assets/images/icons/heart.png';
 import styles from './styles';
 
 function Landing() {
-    
-    const {navigate} = useNavigation();
-    
-    function handleNavigateToGiveClassesPage(){
-        navigate('GiveClasses');
-    }
-    
-    function handleNavigateToStudyPages(){
-      navigate('Study');
-   }
+  const [totalconnections, setTotalconnections] = useState(0); 
+  const {navigate} = useNavigation();
+
+  function handleNavigateToGiveClassesPage(){
+      navigate('GiveClasses');
+  };
+
+  function handleNavigateToStudyPages(){
+    navigate('Study');
+  };
+
+
+  //Substitudo ao useEffect, o mesmo será executada toda vez que a tela estiver em foco
+  useFocusEffect(() => {
+    api.get('connections').then(response => {
+        const { total } = response.data;
+        setTotalconnections(total);
+    })
+
+  });
+
     return (
       <View style={styles.container}>
           <Image source={landingImg} style={styles.banner} />
@@ -51,7 +66,7 @@ function Landing() {
           </View>
 
             <Text style={styles.totalConnection}>
-                Total de 200 conexões já realizadas {' '} 
+                Total de {totalconnections} conexões já realizadas {' '} 
                 <Image source={heartIcon} />
             </Text>
 
